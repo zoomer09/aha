@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hello Miss PMO</title>
+<style>
+  body {
+    background-color: pink;
+    font-family: 'Comic Sans MS', cursive;
+    text-align: center;
+    color: #fff;
+    margin-top: 100px;
+  }
+  input, button {
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    font-size: 18px;
+  }
+  button {
+    background-color: white;
+    color: hotpink;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+  <h1>Hello Miss PMO 💅</h1>
+  <p>Kindly confirm your name in the box below 👇</p>
+  <input type="text" id="nameBox" placeholder="Enter your name">
+  <br><br>
+  <button onclick="nextPage()">Next ➡️</button>
+
+  <script>
+    function nextPage() {
+      const name = document.getElementById('nameBox').value;
+      localStorage.setItem('username', name);
+      localStorage.setItem('playMusic', 'true'); // allow music on next page
+      window.location.href = 'dob.html';
+    }
+  </script>
+</body>
+</html>

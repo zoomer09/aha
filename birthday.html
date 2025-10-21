@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday!</title>
+<style>
+  body {
+    background-color: pink;
+    color: white;
+    text-align: center;
+    font-family: 'Comic Sans MS', cursive;
+    overflow: hidden;
+  }
+  h1 {
+    font-size: 2.5em;
+    margin-top: 100px;
+  }
+  .emoji {
+    font-size: 2em;
+  }
+  button {
+    background-color: white;
+    color: hotpink;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 18px;
+  }
+</style>
+</head>
+<body>
+  <h1>OMG? IT’S TIME?? HAPPY BIRTHDAYYYYYYYYYYYYYY ESHA 🎉🎈🎊</h1>
+  <div class="emoji">🎈🎉🎂🎊✨🎁🥳</div>
+  <canvas id="confetti"></canvas>
+  <br><br>
+  <button onclick="goNext()">Next ➡️</button>
+
+  <audio id="bdayMusic" src="DIVINE - Baazigar feat. Armani White  Prod. by Karan Kanchan  Official Music Video.mp3"></audio>
+
+  <script>
+    // Confetti effect
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const confetti = [];
+    for (let i = 0; i < 150; i++) {
+      confetti.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 6 + 2,
+        d: Math.random() * 1 + 0.5
+      });
+    }
+
+    function drawConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "white";
+      confetti.forEach(c => {
+        ctx.beginPath();
+        ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2, false);
+        ctx.fill();
+      });
+      updateConfetti();
+    }
+
+    function updateConfetti() {
+      confetti.forEach(c => {
+        c.y += c.d;
+        if (c.y > canvas.height) c.y = 0;
+      });
+    }
+    setInterval(drawConfetti, 20);
+
+    // Play music from 00:50 after click navigation
+    window.addEventListener('load', () => {
+      const audio = document.getElementById('bdayMusic');
+      if (localStorage.getItem('playMusic') === 'true') {
+        audio.currentTime = 50;
+        audio.play().catch(()=>{});
+        localStorage.removeItem('playMusic');
+      }
+    });
+
+    function goNext() {
+      window.location.href = 'message.html';
+    }
+  </script>
+</body>
+</html>
