@@ -3,13 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hello Miss PMO</title>
+<title>Birthday Surprise</title>
 <style>
   body {
-    background-color: pink;
-    font-family: 'Comic Sans MS', cursive;
+    font-family: "Comic Sans MS", cursive;
     text-align: center;
-    color: #fff;
+    background-color: pink;
+    color: white;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+  }
+  #container {
     margin-top: 100px;
   }
   input, button {
@@ -23,22 +28,105 @@
     color: hotpink;
     cursor: pointer;
   }
+  canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
 </style>
 </head>
 <body>
+<canvas id="fireworks"></canvas>
+<div id="container">
   <h1>Hello Miss PMO 💅</h1>
   <p>Kindly confirm your name in the box below 👇</p>
-  <input type="text" id="nameBox" placeholder="Enter your name">
+  <input type="text" id="nameBox" placeholder="Enter your name" />
   <br><br>
-  <button onclick="nextPage()">Next ➡️</button>
+  <button onclick="page2()">Next ➡️</button>
+</div>
 
-  <script>
-    function nextPage() {
-      const name = document.getElementById('nameBox').value;
-      localStorage.setItem('username', name);
-      localStorage.setItem('playMusic', 'true'); // allow music on next page
-      window.location.href = 'dob.html';
-    }
-  </script>
+<audio id="music" src="DIVINE - Baazigar feat. Armani White  Prod. by Karan Kanchan  Official Music Video.mp3"></audio>
+
+<script>
+const container = document.getElementById('container');
+const music = document.getElementById('music');
+const canvas = document.getElementById('fireworks');
+const ctx = canvas.getContext('2d');
+let width = window.innerWidth;
+let height = window.innerHeight;
+canvas.width = width;
+canvas.height = height;
+
+// Simple confetti/firework animation
+let particles = [];
+
+function random(min, max) { return Math.random() * (max - min) + min; }
+
+function createParticle() {
+  return {
+    x: width/2,
+    y: height,
+    vx: random(-5,5),
+    vy: random(-15,-5),
+    color: `hsl(${random(0,360)},100%,50%)`,
+    life: 100
+  };
+}
+
+function animate() {
+  ctx.fillStyle = 'rgba(0,0,0,0.2)';
+  ctx.fillRect(0,0,width,height);
+  particles.forEach((p,i)=>{
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vy += 0.2;
+    p.life--;
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,3,0,Math.PI*2);
+    ctx.fillStyle = p.color;
+    ctx.fill();
+    if(p.life<=0) particles.splice(i,1);
+  });
+  requestAnimationFrame(animate);
+}
+animate();
+
+function launchFireworks() {
+  for(let i=0;i<20;i++) particles.push(createParticle());
+  setTimeout(launchFireworks, 500);
+}
+
+function page2() {
+  container.innerHTML = `
+    <h1>Now enter your date of birth 🎂</h1>
+    <input type="date" id="dob"><br><br>
+    <button onclick="page3()">Next ➡️</button>`;
+}
+
+function page3() {
+  document.body.style.backgroundColor = "black";
+  container.innerHTML = `
+    <h1>ITS TIME!!! 🎉🎈🎆</h1>
+    <h2>OMG?? HOLY COW?? ITS 22ND TODAY???</h2>
+    <h1>HAPPY BIRTHDAYYYYYYYYYYYYYYYYY ESHA!!!!!! 🎂🎉🎈</h1>
+    <br><button onclick="page4()">Next ➡️</button>
+  `;
+  launchFireworks();
+  music.currentTime = 50;
+  music.play();
+}
+
+function page4() {
+  music.pause();
+  document.body.style.backgroundColor = "pink";
+  container.innerHTML = `
+    <h2>shayla u are growing 🥹💖</h2>
+    <p>i hope you achieve all that you prayed for and all that you want but forgot to pray for 🌸</p>
+    <p>may this year make all your worries go away and make your delulus come trululu ✨</p>
+    <h3>and stop being pmo now u old 😡😡😡</h3>
+  `;
+}
+</script>
 </body>
 </html>
